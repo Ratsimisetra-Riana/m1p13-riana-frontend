@@ -1,0 +1,8 @@
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Boutiques</h2>
+  <ul>
+    <li *ngFor="let s of shops" class="py-2 border-b">
+      <a [routerLink]="['/shops', s.id, 'products']" class="text-blue-600">{{ s.name }}</a>
+    </li>
+  </ul>
+</div>

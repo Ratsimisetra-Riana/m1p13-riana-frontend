@@ -1,0 +1,39 @@
+<div class="flex flex-col min-h-screen bg-gray-50">
+
+  <!-- NAVBAR (reuse) -->
+  <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+  <!-- BODY -->
+  <div class="flex flex-1">
+
+    <!-- SIMPLE SIDEBAR for admin (reusing existing sidebar for now) -->
+    <div
+      [ngClass]="{
+        'translate-x-0': sidebarOpen,
+        '-translate-x-full': !sidebarOpen
+      }"
+      class="fixed md:static top-0 bottom-0 left-0 z-40 w-64 bg-white border-gray-900 transform transition-transform duration-300 md:translate-x-0">
+      <div class="p-4 border-b font-semibold">Shop Admin</div>
+      <nav class="p-4 space-y-2">
+        <a routerLink="/shop-admin/dashboard" class="block text-sm text-gray-700">Tableau de bord</a>
+        <a routerLink="/shop-admin/products" class="block text-sm text-gray-700">Mes produits</a>
+        <a routerLink="/shop-admin/add-product" class="block text-sm text-gray-700">Ajouter produit</a>
+        <a routerLink="/shop-admin/sold" class="block text-sm text-gray-700">Produits vendus</a>
+        <a routerLink="/shop-admin/profile" class="block text-sm text-gray-700">Profil</a>
+      </nav>
+    </div>
+
+    <!-- OVERLAY (mobile only) -->
+    <div *ngIf="sidebarOpen" (click)="toggleSidebar()" class="fixed inset-0 bg-black/40 md:hidden z-30"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-4 md:p-6 bg-gray-50">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+
+</div>

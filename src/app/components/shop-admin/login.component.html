@@ -1,0 +1,14 @@
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Connexion Boutique</h2>
+  <form (ngSubmit)="submit()">
+    <label class="block mb-2">Shop ID
+      <input [(ngModel)]="shopId" name="shopId" class="w-full border px-2 py-1" />
+    </label>
+    <label class="block mb-4">Mot de passe
+      <input type="password" [(ngModel)]="password" name="password" class="w-full border px-2 py-1" />
+    </label>
+    <div class="flex gap-2">
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Se connecter</button>
+    </div>
+  </form>
+</div>

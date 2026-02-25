@@ -1,0 +1,24 @@
+<div class="max-w-3xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Votre panier</h2>
+
+  <div *ngIf="items.length === 0" class="text-gray-600">Le panier est vide.</div>
+
+  <div *ngFor="let it of items" class="flex items-center gap-4 border-b py-2">
+    <div class="flex-1">
+      <div class="font-medium">{{ it.productName }}</div>
+      <div class="text-sm text-gray-500">{{ it.variantSku || '' }}</div>
+    </div>
+    <div class="w-32">
+      <input type="number" [value]="it.quantity" (change)="updateQty(it, $any($event.target).value)" class="w-full border px-2 py-1" />
+    </div>
+    <div class="w-24">{{ it.price | currency }}</div>
+    <div><button (click)="remove(it)" class="text-red-600">Supprimer</button></div>
+  </div>
+
+  <div class="flex justify-between items-center mt-4">
+    <div class="text-lg font-bold">Total: {{ total() | currency }}</div>
+    <div>
+      <button (click)="checkout()" class="bg-blue-600 text-white px-3 py-1 rounded">Passer à la caisse</button>
+    </div>
+  </div>
+</div>

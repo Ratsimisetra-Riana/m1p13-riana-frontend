@@ -1,0 +1,16 @@
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Produits vendus</h2>
+
+  <div *ngIf="records.length === 0" class="text-gray-600">Aucune vente trouvée.</div>
+
+  <div *ngFor="let r of records" class="border-b py-3">
+    <div class="flex justify-between">
+      <div>
+        <div class="font-medium">{{ r.item.productName }}</div>
+        <div class="text-sm text-gray-500">Commande {{ r.orderId }} — {{ r.date | date:'short' }}</div>
+      </div>
+      <div class="text-sm">{{ r.status }} — {{ r.online ? 'En ligne' : 'Sur place' }}</div>
+    </div>
+    <div class="mt-2">Montant: {{ r.amount | currency }}</div>
+  </div>
+</div>

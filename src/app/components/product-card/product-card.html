@@ -1,8 +1,5 @@
 <div class="border border-gray-100 rounded-lg bg-white overflow-hidden hover:shadow-md transition-all duration-200">
-  <a
-      [routerLink]="['/products', product._id]"
-      class="block">
-    
+  <a [routerLink]="['/products', product._id]" class="block">
     <!-- IMAGE -->
     <div class="relative aspect-square bg-gray-50">
       <img
@@ -11,32 +8,25 @@
         class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
         loading="lazy"
       />
-      
+
       <!-- STOCK BADGE -->
       <div class="absolute top-2 right-2">
-        <span
-          *ngIf="!inStock"
-          class="bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded">
-          Out of stock
-        </span>
-        <span *ngIf="inStock"
-          class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded">
-          In stock
-        </span>
+        <span *ngIf="!inStock" class="bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded">Out of stock</span>
+        <span *ngIf="inStock" class="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded">In stock</span>
       </div>
     </div>
 
     <!-- CONTENT -->
     <div class="p-3">
-      <h3 class="text-sm font-medium text-gray-800 mb-2 line-clamp-2 min-h-[40px]">
-        {{ product.name }}
-      </h3>
-
+      <h3 class="text-sm font-medium text-gray-800 mb-2 line-clamp-2 min-h-[40px]">{{ product.name }}</h3>
       <div class="flex items-center justify-between">
-        <span class="text-lg font-bold text-gray-900">
-          {{ product.basePrice | currency }}
-        </span>
+        <span class="text-lg font-bold text-gray-900">{{ product.price | currency }}</span>
       </div>
     </div>
   </a>
+
+  <div class="p-3 border-t bg-white flex items-center justify-between">
+    <button (click)="addToCart()" [disabled]="!inStock" class="bg-blue-600 text-white px-3 py-1 rounded">Ajouter au panier</button>
+    <a [routerLink]="['/shops', product.shopId, 'products']" class="text-sm text-gray-600">Voir boutique</a>
+  </div>
 </div>

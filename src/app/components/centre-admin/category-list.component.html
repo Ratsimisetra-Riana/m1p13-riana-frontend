@@ -1,0 +1,30 @@
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl">Gestion des catégories</h2>
+    <div>
+      <button (click)="edit()" class="bg-green-600 text-white px-3 py-1 rounded">Nouvelle catégorie</button>
+    </div>
+  </div>
+
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr class="border-b">
+        <th class="py-2">Nom</th>
+        <th class="py-2">Parent</th>
+        <th class="py-2">Filtres</th>
+        <th class="py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of categories" class="border-b">
+        <td class="py-2">{{ c.name }}</td>
+        <td class="py-2">{{ c.parent || '-' }}</td>
+        <td class="py-2">{{ c.filters?.length || 0 }}</td>
+        <td class="py-2">
+          <button (click)="edit(c._id)" class="text-blue-600 mr-2">Éditer</button>
+          <button (click)="remove(c._id)" class="text-red-600">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
