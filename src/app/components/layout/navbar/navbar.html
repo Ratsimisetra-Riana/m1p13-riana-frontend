@@ -67,11 +67,18 @@
       </span>
     </a>
     
-    <!-- Optional: User avatar/indicator -->
-    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center 
-                border-2 border-white/20 hover:border-white/40 transition-colors duration-200
-                cursor-pointer ml-4">
-      <span class="font-semibold">U</span>
+    <a routerLink="/shops" class="px-3 text-sm hover:text-blue-100">Boutiques</a>
+    <a routerLink="/cart" class="px-3 text-sm hover:text-blue-100">Panier</a>
+
+    <!-- auth links -->
+    <div *ngIf="!auth.isLoggedIn()" class="flex items-center gap-3">
+      <a routerLink="/login" class="text-sm">Connexion</a>
+      <a routerLink="/register" class="text-sm">Inscription</a>
+    </div>
+
+    <div *ngIf="auth.isLoggedIn()" class="flex items-center gap-3">
+      <a routerLink="/history" class="text-sm">Mes commandes</a>
+      <button (click)="logout()" class="text-sm">Se déconnecter</button>
     </div>
   </div>
 

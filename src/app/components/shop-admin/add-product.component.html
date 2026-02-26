@@ -1,0 +1,32 @@
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Ajouter un produit</h2>
+
+  <label class="block mb-2">Nom
+    <input [(ngModel)]="model.name" name="name" class="w-full border px-2 py-1" />
+  </label>
+
+  <label class="block mb-2">Categorie
+    <input [(ngModel)]="model.categoryId" name="categoryId" class="w-full border px-2 py-1" />
+  </label>
+
+  <label class="block mb-2">Prix
+    <input type="number" [(ngModel)]="model.price" name="price" class="w-full border px-2 py-1" />
+  </label>
+
+  <label class="block mb-2">Frais de livraison
+    <input type="number" [(ngModel)]="model.shippingFee" name="shippingFee" class="w-full border px-2 py-1" />
+  </label>
+
+  <div class="mb-4">
+    <h4 class="font-semibold">Variantes</h4>
+    <div *ngFor="let v of model.variants; let i = index" class="flex gap-2 items-center mb-2">
+      <input [(ngModel)]="v.sku" name="sku{{i}}" placeholder="SKU" class="border px-2 py-1" />
+      <input type="number" [(ngModel)]="v.stock" name="stock{{i}}" placeholder="Stock" class="border px-2 py-1 w-24" />
+    </div>
+    <button type="button" (click)="addVariant()" class="text-sm text-blue-600">Ajouter variante</button>
+  </div>
+
+  <div class="flex justify-end">
+    <button (click)="submit()" class="bg-green-600 text-white px-3 py-1 rounded">Ajouter</button>
+  </div>
+</div>

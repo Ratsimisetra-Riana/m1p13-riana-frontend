@@ -1,0 +1,19 @@
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Profil Boutique</h2>
+
+  <label class="block mb-2">Nom
+    <input [(ngModel)]="profile.name" name="name" class="w-full border px-2 py-1" />
+  </label>
+
+  <label class="block mb-2">Logo (URL)
+    <input [(ngModel)]="profile.logo" name="logo" class="w-full border px-2 py-1" />
+  </label>
+
+  <label class="block mb-4">Description
+    <textarea [(ngModel)]="profile.description" name="description" class="w-full border px-2 py-1"></textarea>
+  </label>
+
+  <div class="flex justify-end">
+    <button (click)="save()" class="bg-blue-600 text-white px-3 py-1 rounded">Enregistrer</button>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Liste des produits</h2>
+
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr class="border-b">
+        <th class="py-2">Nom</th>
+        <th class="py-2">Categorie</th>
+        <th class="py-2">Stock</th>
+        <th class="py-2">Prix</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of products" class="border-b">
+        <td class="py-2">{{ p.name }}</td>
+        <td class="py-2">{{ p.categoryId }}</td>
+        <td class="py-2">{{ inStock(p) ? 'En stock' : 'Rupture' }}</td>
+        <td class="py-2">{{ p.price | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

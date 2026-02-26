@@ -1,0 +1,35 @@
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Tableau de bord</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="p-4 border rounded">
+      <div class="text-sm text-gray-500">Best Seller</div>
+      <div class="font-bold">{{ metrics.bestSeller?.id || '—' }}</div>
+    </div>
+    <div class="p-4 border rounded">
+      <div class="text-sm text-gray-500">Recette du jour</div>
+      <div class="font-bold">{{ metrics.revenueToday | currency }}</div>
+    </div>
+    <div class="p-4 border rounded">
+      <div class="text-sm text-gray-500">Total ventes (aujourd'hui)</div>
+      <div class="font-bold">{{ metrics.salesToday }}</div>
+    </div>
+  </div>
+
+  <div class="mb-6">
+    <h3 class="font-semibold mb-2">Top 10 produits</h3>
+    <ul class="list-disc pl-5">
+      <li *ngFor="let t of metrics.top10">{{ t.id }} — {{ t.count }}</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3 class="font-semibold mb-2">Recette mensuelle (aperçu)</h3>
+    <div class="grid grid-cols-3 gap-3">
+      <div *ngFor="let m of metrics.monthly" class="p-3 border rounded text-center">
+        <div class="text-sm">M-{{ m.month }}</div>
+        <div class="font-bold">{{ m.revenue | currency }}</div>
+      </div>
+    </div>
+  </div>
+</div>

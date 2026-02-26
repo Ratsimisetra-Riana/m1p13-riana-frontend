@@ -1,0 +1,9 @@
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl mb-4">Produits de la boutique {{ shopId }}</h2>
+
+  <div *ngIf="products.length === 0" class="text-gray-600">Aucun produit trouvé pour cette boutique.</div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <app-product-card *ngFor="let p of products" [product]="p"></app-product-card>
+  </div>
+</div>

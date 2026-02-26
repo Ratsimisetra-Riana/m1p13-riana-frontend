@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -114,6 +115,34 @@ export class ProductService {
   getProductsById(id): Observable<any> {
     console.log(this.http.get(this.apiUrl + "/" + id));
     return this.http.get(this.apiUrl + "/" + id);
+  }
+
+  // Local convenience: get products for a single shop (fallback to mock list)
+  getProductsByShop(shopId: string): Observable<any> {
+    // prefer backend if available
+    try {
+      return this.http.get(this.apiUrl + '?shopId=' + shopId).pipe(
+        map((res: any) => res)
+      );
+    } catch {
+      return of(this.products.filter(p => p.shopId === shopId));
+    }
+  }
+
+  // Add product (client-side fallback)
+  addProduct(product: any): Observable<any> {
+    // if backend exists, post
+    if (this.http) {
+      try {
+        return this.http.post(this.apiUrl, product);
+      } catch {
+        // fallthrough
+      }
+    }
+    // fallback: push to local mock list and return observable
+    const created = { ...product, _id: 'prod_' + Date.now() };
+    this.products.push(created);
+    return of(created);
   }
 
 }

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product-service';
+import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -16,7 +18,7 @@ export class ProductDetailsPage {
   selectedAttributes: Record<string, string> = {};
  
 
-  constructor(private route: ActivatedRoute,private productService: ProductService) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private cart: CartService, private auth: AuthService, private router: Router) {
     const productId = this.route.snapshot.paramMap.get('id');
     this.loadProduct(productId);
   }
@@ -49,12 +51,32 @@ export class ProductDetailsPage {
   
    get selectedVariants() {
     if (!this.product?.variants?.length) return null;
-
-    return this.product.variants.filter(v =>
+    return this.product.variants.filter((v: any) =>
       Object.entries(this.selectedAttributes).every(
         ([key, value]) => v.attributes?.[key] === value
       )
     );
+  }
+
+  addToCart() {
+    const variant = this.selectedVariants?.[0] || this.product?.variants?.[0];
+    this.cart.add({
+      productId: this.product._id,
+      productName: this.product.name,
+      variantSku: variant?.sku,
+      price: variant?.price || this.product.price || 0,
+      quantity: 1,
+      shopId: this.product.shopId
+    });
+  }
+
+  buyNow() {
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.addToCart();
+    this.router.navigate(['/checkout']);
   }
 
 }

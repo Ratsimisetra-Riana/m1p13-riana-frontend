@@ -1,0 +1,113 @@
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+  
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5">
+    <h2 class="text-xl font-bold text-white">
+      {{ id && id !== 'new' ? 'Éditer' : 'Nouvelle' }} catégorie
+    </h2>
+  </div>
+
+  <!-- Form content -->
+  <div class="p-6 space-y-6">
+    
+    <!-- Basic Information -->
+    <div class="bg-gray-50 rounded-xl p-5 space-y-4">
+      <h3 class="font-semibold text-gray-800">Informations de base</h3>
+      
+      <!-- Category Name -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+        <input [(ngModel)]="model.name" name="name" 
+               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+      </div>
+
+      <!-- Parent Category -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Parent</label>
+        <select [(ngModel)]="model.parent" [compareWith]="compareCategories" name="parent"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option [ngValue]="null">— Aucun —</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat" [hidden]="cat._id === model._id">
+            {{ cat.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="bg-gray-50 rounded-xl p-5 space-y-4">
+      <h3 class="font-semibold text-gray-800">Filtres</h3>
+
+      <!-- Filters List -->
+      <div class="space-y-4">
+        <div *ngFor="let f of model.filters; let i = index" 
+             class="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
+          
+          <div class="flex items-center justify-between">
+            <span class="font-medium text-gray-700">Filtre {{ i + 1 }}</span>
+            <button (click)="removeFilter(i)" 
+                    class="text-sm text-red-600 hover:text-red-800 px-3 py-1.5 rounded-lg">
+              Supprimer
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Filter Key -->
+            <div>
+              <label class="block text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Clé</label>
+              <input [(ngModel)]="f.key" name="fkey{{i}}" 
+                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+            </div>
+
+            <!-- Filter Type -->
+            <div>
+              <label class="block text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Type</label>
+              <select [(ngModel)]="f.type" name="ftype{{i}}" 
+                      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="select">select</option>
+                <option value="checkbox">checkbox</option>
+                <option value="range">range</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Options for select/checkbox -->
+          <div *ngIf="f.type !== 'range'">
+            <label class="block text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Options</label>
+            <div class="space-y-2">
+              <div *ngFor="let opt of f.options ?? []; let oi = index; trackBy: trackByIndex" class="flex items-center gap-2">
+                <input [(ngModel)]="f.options![oi]" name="foption{{i}}_{{oi}}"
+                       class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <button (click)="removeOption(f, oi)" type="button"
+                        class="text-sm text-red-600 hover:text-red-800 px-3 py-1.5 rounded-lg">
+                  ×
+                </button>
+              </div>
+
+              <button (click)="addOption(f)" type="button"
+                      class="mt-2 inline-flex items-center px-3 py-1.5 border border-dashed rounded-lg text-gray-600 hover:text-blue-600">
+                + Ajouter option
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Add Filter Button -->
+        <button (click)="addFilter()" 
+                class="w-full py-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-blue-500 hover:text-blue-600 transition-colors duration-200">
+          + Ajouter filtre
+        </button>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-end pt-4 border-t border-gray-200">
+      <button (click)="save()" 
+              class="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 px-8 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-md">
+        Enregistrer
+      </button>
+    </div>
+
+  </div>
+</div>
