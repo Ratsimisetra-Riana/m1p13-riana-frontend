@@ -1,0 +1,55 @@
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+  
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5">
+    <h2 class="text-xl font-bold text-white">
+      {{ id && id !== 'new' ? 'Éditer' : 'Nouvelle' }} boîte
+    </h2>
+  </div>
+
+  <!-- Form content -->
+  <div class="p-6 space-y-6">
+    
+    <!-- Form Fields -->
+    <div class="bg-gray-50 rounded-xl p-5 space-y-4">
+      <h3 class="font-semibold text-gray-800">Informations</h3>
+      
+      <!-- Code -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Code</label>
+        <input [(ngModel)]="model.code" name="code" 
+               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+               placeholder="Ex: B-001" />
+      </div>
+
+      <!-- Floor -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Étage</label>
+        <input [(ngModel)]="model.floor" name="floor" type="number" 
+               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+               placeholder="Ex: 1" />
+      </div>
+
+      <!-- Zone -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Zone</label>
+        <input [(ngModel)]="model.zone" name="zone" 
+               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+               placeholder="Ex: Entrée" />
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+      <button (click)="cancel()" 
+              class="border border-gray-300 text-gray-700 font-semibold py-3 px-8 rounded-xl hover:bg-gray-50 transition-all duration-200">
+        Annuler
+      </button>
+      <button (click)="save()" 
+              class="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 px-8 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-md">
+        Enregistrer
+      </button>
+    </div>
+
+  </div>
+</div>

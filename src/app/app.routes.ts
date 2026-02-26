@@ -20,6 +20,8 @@ import { ShopAdminLayout } from './components/layout/shop-admin-layout/shop-admi
 import { CentreAdminLayout } from './components/layout/centre-admin-layout/centre-admin-layout';
 import { CentreCategoryListComponent } from './components/centre-admin/category-list.component';
 import { CentreCategoryEditComponent } from './components/centre-admin/category-edit.component';
+import { CentreBoxListComponent } from './components/centre-admin/box-list.component';
+import { CentreBoxEditComponent } from './components/centre-admin/box-edit.component';
 
 export const routes: Routes = [
 { path: 'articles', component: ArticleListComponent }, // Route pourarticle-list
@@ -62,7 +64,9 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'categories', pathMatch: 'full' },
       { path: 'categories', component: CentreCategoryListComponent },
-      { path: 'categories/:id', component: CentreCategoryEditComponent }
+      { path: 'categories/:id', component: CentreCategoryEditComponent },
+      { path: 'boxes', component: CentreBoxListComponent },
+      { path: 'boxes/:id', component: CentreBoxEditComponent }
     ]
   }
 ];

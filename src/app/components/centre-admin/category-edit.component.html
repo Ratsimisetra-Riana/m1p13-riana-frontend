@@ -23,9 +23,14 @@
 
       <!-- Parent Category -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Parent (id)</label>
-        <input [(ngModel)]="model.parent" name="parent" 
-               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        <label class="block text-sm font-medium text-gray-700 mb-1">Parent</label>
+        <select [(ngModel)]="model.parent" [compareWith]="compareCategories" name="parent"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option [ngValue]="null">— Aucun —</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat" [hidden]="cat._id === model._id">
+            {{ cat.name }}
+          </option>
+        </select>
       </div>
     </div>
 
@@ -68,9 +73,22 @@
 
           <!-- Options for select/checkbox -->
           <div *ngIf="f.type !== 'range'">
-            <label class="block text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Options (comma separated)</label>
-            <input [(ngModel)]="f.optionsString" (ngModelChange)="onOptionsChange(f, $event)" 
-                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+            <label class="block text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Options</label>
+            <div class="space-y-2">
+              <div *ngFor="let opt of f.options ?? []; let oi = index; trackBy: trackByIndex" class="flex items-center gap-2">
+                <input [(ngModel)]="f.options![oi]" name="foption{{i}}_{{oi}}"
+                       class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <button (click)="removeOption(f, oi)" type="button"
+                        class="text-sm text-red-600 hover:text-red-800 px-3 py-1.5 rounded-lg">
+                  ×
+                </button>
+              </div>
+
+              <button (click)="addOption(f)" type="button"
+                      class="mt-2 inline-flex items-center px-3 py-1.5 border border-dashed rounded-lg text-gray-600 hover:text-blue-600">
+                + Ajouter option
+              </button>
+            </div>
           </div>
 
         </div>
