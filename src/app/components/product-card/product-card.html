@@ -20,7 +20,7 @@
     <div class="p-3">
       <h3 class="text-sm font-medium text-gray-800 mb-2 line-clamp-2 min-h-[40px]">{{ product.name }}</h3>
       <div class="flex items-center justify-between">
-        <span class="text-lg font-bold text-gray-900">{{ product.price | currency }}</span>
+        <span class="text-lg font-bold text-gray-900">{{ (product.basePrice || 0) | currency }}</span>
       </div>
     </div>
   </a>

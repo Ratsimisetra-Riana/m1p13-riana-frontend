@@ -64,7 +64,7 @@ export class ProductDetailsPage {
       productId: this.product._id,
       productName: this.product.name,
       variantSku: variant?.sku,
-      price: variant?.price || this.product.price || 0,
+      price: variant?.price || this.product.basePrice || 0,
       quantity: 1,
       shopId: this.product.shopId
     });

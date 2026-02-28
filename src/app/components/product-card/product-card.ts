@@ -22,11 +22,13 @@ export class ProductCard {
     if (!this.product) return;
     const variant = (this.product.variants || []).find((v: any) => v.stock > 0) || (this.product.variants || [])[0];
     const sku = variant?.sku;
+    // Use variant price if available, otherwise use basePrice
+    const price = variant?.price || this.product.basePrice || 0;
     this.cart.add({
       productId: this.product._id,
       productName: this.product.name,
       variantSku: sku,
-      price: this.product.price || 0,
+      price: price,
       quantity: 1,
       shopId: this.product.shopId
     });
