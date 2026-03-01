@@ -63,11 +63,16 @@ export class OrderService {
 
   // Get shop orders
   getShopOrders(shopId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.apiUrl}?shopId=${shopId}`);
+    return this.http.get<Order[]>(`${this.apiUrl}/shop/${shopId}`);
   }
 
-  // Update order status
+  // Update order status (using PUT as per backend endpoint)
   updateOrderStatus(orderId: string, status: string): Observable<Order> {
+    return this.http.put<Order>(`${this.apiUrl}/${orderId}`, { status });
+  }
+
+  // Alternative: Update order status using PATCH
+  patchOrderStatus(orderId: string, status: string): Observable<Order> {
     return this.http.patch<Order>(`${this.apiUrl}/${orderId}`, { status });
   }
 }

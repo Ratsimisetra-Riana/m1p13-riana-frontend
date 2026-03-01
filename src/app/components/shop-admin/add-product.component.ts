@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product-service';
 import { ShopAdminService } from '../../services/shop-admin.service';
 import { CategoryService, Category } from '../../services/category.service';
+import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-shop-add-product',
@@ -14,13 +15,19 @@ import { CategoryService, Category } from '../../services/category.service';
 })
 export class ShopAddProductComponent {
   model: any = { name: '', categoryId: null, basePrice: 0, images: [], variants: [] };
-  imageInput: string = '';
   categories: Category[] = [];
+  
+  // File handling
+  selectedFiles: File[] = [];
+  imagePreviews: string[] = [];
+  existingImages: string[] = [];
+  uploading = false;
 
   constructor(
     private productService: ProductService,
     private shopAdmin: ShopAdminService,
     private categoryService: CategoryService,
+    private supabaseService: SupabaseService,
     private router: Router
   ) {
     // Load categories on init
@@ -31,6 +38,56 @@ export class ShopAddProductComponent {
 
   compareCategories(c1: any, c2: any): boolean {
     return c1?._id === c2?._id;
+  }
+
+  /**
+   * Handle file selection from input
+   */
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const files = Array.from(input.files);
+      
+      // Validate files
+      for (const file of files) {
+        if (file.size > 5 * 1024 * 1024) {
+          alert(`Le fichier ${file.name} dépasse 5MB`);
+          continue;
+        }
+        
+        if (!file.type.startsWith('image/')) {
+          alert(`Le fichier ${file.name} n'est pas une image`);
+          continue;
+        }
+        
+        this.selectedFiles.push(file);
+        
+        // Generate preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imagePreviews.push(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    // Reset input
+    input.value = '';
+  }
+
+  /**
+   * Remove selected image
+   */
+  removeImage(index: number) {
+    this.selectedFiles.splice(index, 1);
+    this.imagePreviews.splice(index, 1);
+  }
+
+  /**
+   * Remove existing image (for edit mode)
+   */
+  removeExistingImage(index: number) {
+    this.existingImages.splice(index, 1);
   }
 
   addVariant() {
@@ -48,15 +105,49 @@ export class ShopAddProductComponent {
   }
 
   submit() {
-    const shop = this.shopAdmin.getShop();
-    if (shop) this.model.shopId = shop.id;
-    
-    // Convert image input to array
-    this.model.images = this.imageInput
-      .split(',')
-      .map((url: string) => url.trim())
-      .filter((url: string) => url.length > 0);
-    
-    this.productService.addProduct(this.model).subscribe(() => this.router.navigate(['/shop-admin/products']));
+    this.uploading = true;
+
+    const uploadImages = async () => {
+      // Combine existing images with newly uploaded ones
+      const allImages = [...this.existingImages];
+
+      if (this.selectedFiles.length > 0) {
+        try {
+          // Upload files to Supabase
+          const urls = await this.supabaseService.uploadFiles(this.selectedFiles).toPromise();
+          if (urls) {
+            allImages.push(...urls);
+          }
+        } catch (error) {
+          console.error('Error uploading images:', error);
+          alert('Erreur lors du téléchargement des images');
+          this.uploading = false;
+          return;
+        }
+      }
+
+      return allImages;
+    };
+
+    uploadImages().then((imageUrls) => {
+      if (imageUrls === undefined) return; // Error occurred
+
+      this.model.images = imageUrls;
+
+      const shop = this.shopAdmin.getShop();
+      if (shop) this.model.shopId = shop.id;
+
+      this.productService.addProduct(this.model).subscribe({
+        next: () => {
+          this.uploading = false;
+          this.router.navigate(['/shop-admin/products']);
+        },
+        error: (err) => {
+          console.error('Error adding product:', err);
+          this.uploading = false;
+          alert('Erreur lors de l\'ajout du produit');
+        }
+      });
+    });
   }
 }

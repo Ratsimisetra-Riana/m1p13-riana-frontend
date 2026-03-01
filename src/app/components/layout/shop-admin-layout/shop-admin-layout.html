@@ -1,26 +1,92 @@
 <div class="flex flex-col min-h-screen bg-gray-50">
 
-  <!-- NAVBAR (reuse) -->
+  <!-- NAVBAR -->
   <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
 
   <!-- BODY -->
   <div class="flex flex-1">
 
-    <!-- SIMPLE SIDEBAR for admin (reusing existing sidebar for now) -->
+    <!-- SIDEBAR for shop admin -->
     <div
       [ngClass]="{
         'translate-x-0': sidebarOpen,
         '-translate-x-full': !sidebarOpen
       }"
-      class="fixed md:static top-0 bottom-0 left-0 z-40 w-64 bg-white border-gray-900 transform transition-transform duration-300 md:translate-x-0">
-      <div class="p-4 border-b font-semibold">Shop Admin</div>
-      <nav class="p-4 space-y-2">
-        <a routerLink="/shop-admin/dashboard" class="block text-sm text-gray-700">Tableau de bord</a>
-        <a routerLink="/shop-admin/products" class="block text-sm text-gray-700">Mes produits</a>
-        <a routerLink="/shop-admin/add-product" class="block text-sm text-gray-700">Ajouter produit</a>
-        <a routerLink="/shop-admin/sold" class="block text-sm text-gray-700">Produits vendus</a>
-        <a routerLink="/shop-admin/profile" class="block text-sm text-gray-700">Profil</a>
+      class="fixed md:static top-0 bottom-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 md:translate-x-0">
+      
+      <!-- Header -->
+      <div class="p-5 border-b border-gray-200">
+        <h2 class="font-bold text-gray-800 text-lg">Ma Boutique</h2>
+        <p class="text-xs text-gray-500 mt-1">Gestion de la boutique</p>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="p-3 space-y-1">
+        <a routerLink="/shop-admin/dashboard" 
+           routerLinkActive="bg-blue-50 text-blue-700"
+           class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+          </svg>
+          Tableau de bord
+        </a>
+
+        <a routerLink="/shop-admin/products" 
+           routerLinkActive="bg-blue-50 text-blue-700"
+           class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+          </svg>
+          Mes produits
+        </a>
+
+        <a routerLink="/shop-admin/add-product" 
+           routerLinkActive="bg-blue-50 text-blue-700"
+           class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Ajouter produit
+        </a>
+
+        <a routerLink="/shop-admin/orders" 
+           routerLinkActive="bg-blue-50 text-blue-700"
+           class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+          </svg>
+          Commandes
+        </a>
+
+        <a routerLink="/shop-admin/sold" 
+           routerLinkActive="bg-blue-50 text-blue-700"
+           class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+          Produits vendus
+        </a>
+
+        <a routerLink="/shop-admin/profile" 
+           routerLinkActive="bg-blue-50 text-blue-700"
+           class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          Profil
+        </a>
       </nav>
+
+      <!-- Back to site -->
+      <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+        <a routerLink="/" 
+           class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Retour au site
+        </a>
+      </div>
     </div>
 
     <!-- OVERLAY (mobile only) -->

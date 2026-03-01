@@ -17,6 +17,7 @@ import { ShopAddProductComponent } from './components/shop-admin/add-product.com
 import { ShopProductListComponent } from './components/shop-admin/product-list.component';
 import { ShopProductEditComponent } from './components/shop-admin/product-edit.component';
 import { ShopSoldProductsComponent } from './components/shop-admin/sold-products.component';
+import { ShopOrdersComponent } from './components/shop-admin/orders.component';
 import { ShopAdminLayout } from './components/layout/shop-admin-layout/shop-admin-layout';
 import { CentreAdminLayout } from './components/layout/centre-admin-layout/centre-admin-layout';
 import { CentreCategoryListComponent } from './components/centre-admin/category-list.component';
@@ -27,56 +28,62 @@ import { CentreShopListComponent } from './components/centre-admin/shop-list.com
 import { CentreShopEditComponent } from './components/centre-admin/shop-edit.component';
 import { CentreUserListComponent } from './components/centre-admin/user-list.component';
 import { CentreUserEditComponent } from './components/centre-admin/user-edit.component';
+import { shopAdminGuard } from './services/shop-admin.guard';
+import { centreAdminGuard } from './services/centre-admin.guard';
 
 export const routes: Routes = [
-{ path: 'articles', component: ArticleListComponent }, // Route pourarticle-list
-//{ path: '', redirectTo: 'articles', pathMatch: 'full' } // Redirection par défaut
-{
-    path: '',
-    component: MainLayout,
-    children: [
-      { path: '', redirectTo: 'products', pathMatch: 'full' }, // default
-      { path: 'products', component: ProductPage },
-      { path: 'products/:id', component: ProductDetailsPage },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'cart', component: CartComponent },
-      { path: 'checkout', component: CheckoutComponent },
-      { path: 'history', component: PurchaseHistoryComponent },
-      { path: 'shops', component: ShopListComponent },
-      { path: 'shops/:id/products', component: ShopProductsComponent }
-    ]
-  }
-,
-  // shop admin area
+  { path: 'articles', component: ArticleListComponent }, // Route pourarticle-list
+  //{ path: '', redirectTo: 'articles', pathMatch: 'full' } // Redirection par défaut
   {
-    path: 'shop-admin',
-    component: ShopAdminLayout,
-    children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: ShopAdminLoginComponent },
-      { path: 'dashboard', component: ShopDashboardComponent },
-      { path: 'profile', component: ShopProfileComponent },
-      { path: 'add-product', component: ShopAddProductComponent },
-      { path: 'products', component: ShopProductListComponent },
-      { path: 'products/:id', component: ShopProductEditComponent },
-      { path: 'sold', component: ShopSoldProductsComponent }
-    ]
-  }
+      path: '',
+      component: MainLayout,
+      children: [
+        { path: '', redirectTo: 'products', pathMatch: 'full' }, // default
+        { path: 'products', component: ProductPage },
+        { path: 'products/:id', component: ProductDetailsPage },
+        { path: 'login', component: LoginComponent },
+        { path: 'register', component: RegisterComponent },
+        { path: 'cart', component: CartComponent },
+        { path: 'checkout', component: CheckoutComponent },
+        { path: 'history', component: PurchaseHistoryComponent },
+        { path: 'shops', component: ShopListComponent },
+        { path: 'shops/:id/products', component: ShopProductsComponent }
+      ]
+    }
   ,
-  {
-    path: 'centre-admin',
-    component: CentreAdminLayout,
-    children: [
-      { path: '', redirectTo: 'categories', pathMatch: 'full' },
-      { path: 'categories', component: CentreCategoryListComponent },
-      { path: 'categories/:id', component: CentreCategoryEditComponent },
-      { path: 'boxes', component: CentreBoxListComponent },
-      { path: 'boxes/:id', component: CentreBoxEditComponent },
-      { path: 'shops', component: CentreShopListComponent },
-      { path: 'shops/:id', component: CentreShopEditComponent },
-      { path: 'users', component: CentreUserListComponent },
-      { path: 'users/:id', component: CentreUserEditComponent }
-    ]
-  }
+    // shop admin area - protected by shopAdminGuard
+    {
+      path: 'shop-admin',
+      component: ShopAdminLayout,
+      canActivate: [shopAdminGuard],
+      children: [
+        { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+        { path: 'login', component: ShopAdminLoginComponent },
+        { path: 'dashboard', component: ShopDashboardComponent },
+        { path: 'profile', component: ShopProfileComponent },
+        { path: 'add-product', component: ShopAddProductComponent },
+        { path: 'products', component: ShopProductListComponent },
+        { path: 'products/:id', component: ShopProductEditComponent },
+        { path: 'sold', component: ShopSoldProductsComponent },
+        { path: 'orders', component: ShopOrdersComponent }
+      ]
+    }
+    ,
+    // centre admin area - protected by centreAdminGuard
+    {
+      path: 'centre-admin',
+      component: CentreAdminLayout,
+      canActivate: [centreAdminGuard],
+      children: [
+        { path: '', redirectTo: 'categories', pathMatch: 'full' },
+        { path: 'categories', component: CentreCategoryListComponent },
+        { path: 'categories/:id', component: CentreCategoryEditComponent },
+        { path: 'boxes', component: CentreBoxListComponent },
+        { path: 'boxes/:id', component: CentreBoxEditComponent },
+        { path: 'shops', component: CentreShopListComponent },
+        { path: 'shops/:id', component: CentreShopEditComponent },
+        { path: 'users', component: CentreUserListComponent },
+        { path: 'users/:id', component: CentreUserEditComponent }
+      ]
+    }
 ];

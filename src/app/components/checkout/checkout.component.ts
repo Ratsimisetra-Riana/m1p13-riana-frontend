@@ -91,7 +91,6 @@ export class CheckoutComponent implements OnInit {
     if (user && user.id) {
       order.userId = user.id;
     }
-    order.userId = '69a075726d4a0982d0e8f264';
     this.isLoading = true;
 
     this.orderService.createOrder(order).subscribe({

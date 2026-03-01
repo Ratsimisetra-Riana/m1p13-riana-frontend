@@ -1,15 +1,23 @@
 <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
   <h2 class="text-xl mb-4">Connexion</h2>
+  
+  <!-- Error message -->
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    {{ error }}
+  </div>
+  
   <form (ngSubmit)="submit()">
     <label class="block mb-2">Email
-      <input [(ngModel)]="email" name="email" class="w-full border px-2 py-1" />
+      <input [(ngModel)]="email" name="email" type="email" required class="w-full border px-2 py-1" />
     </label>
     <label class="block mb-4">Mot de passe
-      <input type="password" [(ngModel)]="password" name="password" class="w-full border px-2 py-1" />
+      <input type="password" [(ngModel)]="password" name="password" required class="w-full border px-2 py-1" />
     </label>
     <div class="flex gap-2">
-      <button class="bg-blue-600 text-white px-3 py-1 rounded">Se connecter</button>
-      <a routerLink="/register" class="text-sm text-gray-600 self-center">Créer un compte</a>
+      <button type="submit" [disabled]="loading" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50">
+        {{ loading ? 'Connexion...' : 'Se connecter' }}
+      </button>
+      <a routerLink="/register" class="text-sm text-gray-600 self-center hover:text-blue-600">Créer un compte</a>
     </div>
   </form>
 </div>

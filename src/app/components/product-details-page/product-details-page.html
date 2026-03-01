@@ -127,7 +127,7 @@
       <div class="mt-6 p-4 border rounded-lg bg-gray-50">
 
         <!-- Valid variant selected -->
-        <ng-container *ngIf="selectedVariants.length; else noVariant">
+        <ng-container *ngIf="selectedVariants && selectedVariants.length; else noVariant">
           <div *ngFor="let variant of selectedVariants" class="space-y-2">
             <div>SKU: {{ variant.sku }}</div>
             <div>Stock: {{ variant.stock }}</div>
@@ -160,6 +160,38 @@
           {{ selectedVariant.price ?? product.basePrice | currency }}
       </div>-->
 
+
+      <!-- Quantity Selector -->
+      <div class="mt-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Quantité</label>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center border rounded-lg overflow-hidden">
+            <button 
+              (click)="decreaseQuantity()" 
+              [disabled]="quantity <= 1"
+              class="px-4 py-2 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              -
+            </button>
+            <input 
+              type="number" 
+              [value]="quantity"
+              (change)="onQuantityChange($event)"
+              (input)="onQuantityChange($event)"
+              [min]="1"
+              [max]="maxQuantity"
+              class="w-16 text-center py-2 border-x focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <button 
+              (click)="increaseQuantity()" 
+              [disabled]="quantity >= maxQuantity"
+              class="px-4 py-2 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              +
+            </button>
+          </div>
+          <span class="text-sm text-gray-500">
+            ({{ maxQuantity }} disponibles)
+          </span>
+        </div>
+      </div>
 
       <!-- ADD TO CART - More prominent -->
       <div class="space-y-4 pt-4">

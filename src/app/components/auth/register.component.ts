@@ -14,12 +14,30 @@ export class RegisterComponent {
   name = '';
   email = '';
   password = '';
+  error = '';
+  loading = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   submit() {
-    this.auth.register(this.name, this.email, this.password).subscribe(() => {
-      this.router.navigate(['/']);
+    this.error = '';
+    this.loading = true;
+    
+    this.auth.register(this.name, this.email, this.password).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.loading = false;
+        if (err.status === 409) {
+          this.error = 'Un compte avec cet email existe déjà';
+        } else if (err.error?.message) {
+          this.error = err.error.message;
+        } else {
+          this.error = 'Une erreur est survenue lors de l\'inscription';
+        }
+      }
     });
   }
 }

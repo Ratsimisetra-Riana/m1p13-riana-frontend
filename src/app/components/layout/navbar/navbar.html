@@ -70,6 +70,12 @@
     <a routerLink="/shops" class="px-3 text-sm hover:text-blue-100">Boutiques</a>
     <a routerLink="/cart" class="px-3 text-sm hover:text-blue-100">Panier</a>
 
+    <!-- Admin links - only visible to shop admins -->
+    <a *ngIf="auth.isShopAdmin()" routerLink="/shop-admin" class="px-3 text-sm hover:text-blue-100 text-yellow-300">Ma boutique</a>
+    
+    <!-- Admin links - only visible to centre admins -->
+    <a *ngIf="auth.isCentreAdmin()" routerLink="/centre-admin" class="px-3 text-sm hover:text-blue-100 text-yellow-300">Administration</a>
+
     <!-- auth links -->
     <div *ngIf="!auth.isLoggedIn()" class="flex items-center gap-3">
       <a routerLink="/login" class="text-sm">Connexion</a>
@@ -77,8 +83,9 @@
     </div>
 
     <div *ngIf="auth.isLoggedIn()" class="flex items-center gap-3">
+      <span class="text-sm text-gray-300">{{ auth.getUser()?.name }}</span>
       <a routerLink="/history" class="text-sm">Mes commandes</a>
-      <button (click)="logout()" class="text-sm">Se déconnecter</button>
+      <button (click)="logout()" class="text-sm hover:text-red-300">Se déconnecter</button>
     </div>
   </div>
 
